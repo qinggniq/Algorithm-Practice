@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+// #include <algorithm>
 
+float abs(float a) {
+    return a > 0 ? a : -a;
+}
 using namespace std;
 
 int main() {
@@ -12,9 +15,9 @@ int main() {
     float n_sum = 0.0, p_sum = 0.0;
     for (int i=0; i<n; ++i) {
         if (nums[i] >= 0) {
-            p_sum += (nums[i] - static_cast<int>(nums[i]));
+            p_sum += (static_cast<int>(nums[i]));
         } else {
-            n_sum += abs(nums[i] - static_cast<int>(nums[i]));
+            n_sum += ::abs(static_cast<int>(nums[i]));
         }
     }
     int diff = static_cast<int>(p_sum - n_sum);
