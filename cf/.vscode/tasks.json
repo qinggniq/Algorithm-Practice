@@ -12,6 +12,10 @@
             ],
             "options": {
                 "cwd": "/bin"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
             }
         }
     ],
