@@ -1,0 +1,28 @@
+autoscan: warning: missing AC_CHECK_HEADER_STDBOOL wanted by: 
+	prim.hpp:57
+	strongly_connected_component.hpp:25
+	strongly_connected_component.hpp:74
+	union_find.hpp:38
+	top_sort.hpp:39
+	prim_heap.hpp:58
+	src/prim.hpp:57
+	src/prim_heap.hpp:58
+	prim.hpp:19
+	prim.hpp:28
+	prim.hpp:48
+	strongly_connected_component.hpp:25
+	strongly_connected_component.hpp:34
+	prim_heap.hpp:25
+	prim_heap.hpp:40
+	src/prim.hpp:19
+	src/prim.hpp:28
+	src/prim.hpp:48
+	src/prim_heap.hpp:25
+	src/prim_heap.hpp:40
+	prim.hpp:26
+	strongly_connected_component.hpp:58
+	prim_heap.hpp:35
+	src/prim.hpp:26
+	src/prim_heap.hpp:35
+autoscan: warning: missing AC_PREREQ wanted by: 
+	autoscan
