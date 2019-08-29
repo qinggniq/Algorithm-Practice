@@ -28,13 +28,37 @@ using namespace ds;
 //   vector<int> plen;
 // };
 
+// class MLC {
+//   MLC(const string& s) {
+//     string ts = "#";
+//     for (char c : s) ts += c, ts += "#";
+//     int sz = ts.size();
+//     plens.resize(sz);
+//     for (int i = 0, l = 0, r = -1; i < sz; ++i) {
+//       int k = i > r ? 1 : min(plens[l + r - i], r - i);
+//       while (i + k < sz && i - k >= 0 && ts[i + k] == ts[i - k]) k++;
+//       plens[i] = k--;
+//       if (i + k > r) {
+//         r = i + k;
+//         l = i - k;
+//       }
+//     }
+//   }
+//   int getMaxLen() const { return *max_element(plens.begin(), plens.end()) -
+//   1; }
+
+//  private:
+//   vector<int> plens;
+// };
+
 class MLC {
-  MLC(const string& s) {
+ public:
+  MLC(const string& _s) : s(_s) {
     string ts = "#";
     for (char c : s) ts += c, ts += "#";
     int sz = ts.size();
     plens.resize(sz);
-    for (int i = 0, l = 0, r = -1; i < sz; ++i) {
+    for (int i = 0, r = -1, l = 0; i < sz; ++i) {
       int k = i > r ? 1 : min(plens[l + r - i], r - i);
       while (i + k < sz && i - k >= 0 && ts[i + k] == ts[i - k]) k++;
       plens[i] = k--;
@@ -44,9 +68,10 @@ class MLC {
       }
     }
   }
-  int getMaxLen() const { return *max_element(plens.begin(), plens.end()) - 1; }
+  vector<int> getAllLen() const { return plens; }
 
  private:
+  string s;
   vector<int> plens;
 };
 

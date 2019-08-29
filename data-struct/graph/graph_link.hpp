@@ -19,14 +19,39 @@ struct GraphNode {
 
 class GraphLinkList {
  public:
+  GraphLinkList(int v, const vector<vector<int>>& in) : GraphLinkList(v) {
+    for (auto& edg : in) {
+      addEdge(edg[0], edg[1], edg[2]);
+      addEdge(edg[1], edg[0], edg[2]);
+    }
+  }
   GraphLinkList(int n_) : n(n_), graph_(n_ + 1) {}
   void addEdge(int u, int v, int w) {
     graph_[u].id = u;
     graph_[u].next.push_back(Edge(u, v, w));
-    graph_[v].id = v;
-    graph_[v].next.push_back(Edge(v, u, w));
   }
   vector<Edge> adj(int v) const { return graph_[v].next; }
+  // int getW(int u, int v) const {}
+
+ private:
+  int n;  // node number
+  std::vector<GraphNode> graph_;
+};
+
+class DireGraphLinkList {
+ public:
+  DireGraphLinkList(int v, const vector<vector<int>>& in)
+      : DireGraphLinkList(v) {
+    for (auto& edg : in) {
+      addEdge(edg[0], edg[1], edg[2]);
+    }
+  }
+  DireGraphLinkList(int n_) : n(n_), graph_(n_ + 1) {}
+  void addEdge(int u, int v, int w) {
+    graph_[u].id = u;
+    graph_[u].next.push_back(Edge(u, v, w));
+  }
+  vector<Edge> adj(int u) const { return graph_[u].next; }
   // int getW(int u, int v) const {}
 
  private:
