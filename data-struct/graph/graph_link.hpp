@@ -52,6 +52,7 @@ class DireGraphLinkList {
     graph_[u].next.push_back(Edge(u, v, w));
   }
   vector<Edge> adj(int u) const { return graph_[u].next; }
+  int V() const { return n;}
   // int getW(int u, int v) const {}
 
  private:
