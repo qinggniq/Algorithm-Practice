@@ -35,36 +35,49 @@ namespace ds {
 //   }
 // }
 
+// class KMP {
+// public:
+//   KMP(const string& _s) : s(_s) {
+//     int sz = s.size();
+//     pi[0] = 0;
+    
+//     for (int i=1; i<sz; ++i) {
+//       int j = pi[i-1];
+//       while (j > 0 &&s[j] == s[i]) j = pi[j-1];
+//       if (s[j] == s[i]) j++;
+//       pi[i] = j;
+//     }
+//   }
+//   vector<int> find(const string& t, const string& s) {
+//     string ts = s + "#" + t;
+//     int sz = ts.size();
+//     pi[0] = 0;
+    
+//     vector<int> ans ;
+//     for (int i=1; i<sz; ++i) {
+//       int j = pi[i-1];
+//       while (j > 0 &&s[j] == s[i-1]) j = pi[j];
+//       if (s[j] == s[i]) j++;
+//       pi[i] = j;
+//       if (pi[i] == s.size()) ans.push_back(i - s.size());
+//     }
+//     return ans;
+//   }
+//   private:
+//   string s;
+//   vector<int> pi;
+// };
+
 class KMP {
-public:
-  KMP(const string& _s) : s(_s) {
-    int sz = s.size();
-    pi[0] = 0;
-    
-    for (int i=1; i<sz; ++i) {
-      int j = pi[i-1];
-      while (j > 0 &&s[j] == s[i]) j = pi[j-1];
-      if (s[j] == s[i]) j++;
-      pi[i] = j;
-    }
-  }
-  vector<int> find(const string& t, const string& s) {
+  int find(const string& s, const string& t) const { 
     string ts = s + "#" + t;
-    int sz = ts.size();
-    pi[0] = 0;
-    
-    vector<int> ans ;
-    for (int i=1; i<sz; ++i) {
+    vector<int> pi(ts.size(), 0);
+    for (int i=1; i < ts.size(); ++i) {
       int j = pi[i-1];
-      while (j > 0 &&s[j] == s[i-1]) j = pi[j];
-      if (s[j] == s[i-1]) j++;
+      while (j > 0 && ts[j] == ts[i]) j = pi[j-1];
+      if (ts[j] == ts[i]) j++;
       pi[i] = j;
-      if (pi[i] == s.size()) ans.push_back(i - s.size());
     }
-    return ans;
   }
-  private:
-  string s;
-  vector<int> pi;
-};
+}
 }  // namespace ds

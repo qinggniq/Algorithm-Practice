@@ -52,25 +52,41 @@ namespace ds {
 //   vector<int> plen;
 // };
 
+// class Manacher {
+//   Manacher(const string &_s) : s(_s){
+//     string ts = "#";
+//     for (char c:s) ts += c, ts += "#";
+//     int sz = ts.size();
+//     plen.assign(sz, 1);
+//     for (int i=0, r = -1, l  = -1; i< sz; ++i) {
+//       int j = i > r ? 1 : min(plen[r + l - i], r - i);
+//       while (i + j < sz && i - j >= 0 && ts[i+j] == ts[i-j]) j++;
+//       plen[i] = j--;
+//       if (i + j > r) {
+//         r = i + j;
+//         l = i - j;
+//       }
+//     }
+//   }
+//   private:
+//   string s;
+//   vector<int> plen;
+// };
+
 class Manacher {
-  Manacher(const string &_s) : s(_s){
+  int getMaxLen(const string& s) {
     string ts = "#";
     for (char c:s) ts += c, ts += "#";
-    int sz = ts.size();
-    plen.assign(sz, 1);
-    for (int i=0, r = -1, l  = -1; i< sz; ++i) {
-      int j = i > r ? 1 : min(plen[r + l - i], r - i);
-      while (i + j < sz && i - j >= 0 && ts[i+j] == ts[i-j]) j++;
-      plen[i] = j--;
-      if (i + j > r) {
-        r = i + j;
-        l = i - j;
-      }
+    vector<int> plen(ts.size());
+    for (int i=0, l = -1, r = -1; i < ts.size(); i++) {
+      int k = i > r ? 1 : min(plen[l + r - i], r - i);
+      while (i + k < ts.size() && i - k >= 0 && ts[i+k] == ts[i-k]) k++;
+      plen[i] = k--;
+      if (i + k > r) {
+        r = i + k;
+        l = i - k;
+    }
     }
   }
-  private:
-  string s;
-  vector<int> plen;
-};
-
+}
 }  // namespace ds
