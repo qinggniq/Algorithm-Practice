@@ -1,10 +1,10 @@
 import json
 import markdown2
 import os
-from .problem_metadata import ProblemMetaData
-from .problem_template import ProblemTemplate
-from .io_helper import IOHelper
-from .console import Console
+from problem_metadata import ProblemMetaData
+from problem_template import ProblemTemplate
+from io_helper import IOHelper
+from console import Console
 
 problem_metadata = ProblemMetaData()
 
@@ -42,7 +42,7 @@ class ProblemSetter():
         raw_content = ""
         description_cn = ""
         with open(file, "r") as f:
-            raw_content = f.readAll()
+            raw_content = f.read()
             # TODO add mote file type support
             if file.split(".")[-1] in ["html", "htm", ".html", ".htm"]:
                 description_cn = raw_content
@@ -60,8 +60,8 @@ class ProblemSetter():
         file = self.io_helper.readStr()
         raw_content = ""
         input_schema = {}
-        with open(file, "rb") as f:
-            raw_content = f.readAll()
+        with open(file, "r") as f:
+            raw_content = f.read()
             assert file.split(".")[-1] in ["json"]
             input_schema = Parser.json2dict(raw_content)
         self.problem_template.set_input_schema(input_schema)
@@ -71,8 +71,8 @@ class ProblemSetter():
         file = self.io_helper.readStr()
         raw_content = ""
         output_schema = {}
-        with open(file, "rb") as f:
-            raw_content = f.readAll()
+        with open(file, "r") as f:
+            raw_content = f.read()
             assert file.split(".")[-1] in ["json"]
             output_schema = Parser.json2dict(raw_content)
         self.problem_template.set_output_schema(output_schema)
@@ -81,55 +81,56 @@ class ProblemSetter():
         self.console.showAny(u"题目答案文件名 : ")
         file = self.io_helper.readStr()
         solution = {}
-        with open(file, "rb") as f:
-            solution['code'] = f.readAll()
+        with open(file, "r") as f:
+            solution['code'] = f.read()
             suffix = file.split(".")[-1].lower()
             assert suffix in ["py", "java",
                               "cc", "rust", "golang"]
             if suffix == 'py':
-                solution['lang'] = 'python'
+                solution['lang'] = 'python3'
             elif suffix == 'java':
                 solution['lang'] = 'java'
             elif suffix in ['cc', 'cpp']:
                 solution['lang'] = 'C++'
             elif suffix == 'rst':
-                solution['lang'] = 'Rust'
-        self.problem_template.set_solution(solution)
+                solution['lang'] = 'rust'
+        self.problem_template.set_solution([solution])
 
     def __fill_testcase_in(self):
         self.console.showAny(u"输入数据文件名 : ")
         file = self.io_helper.readStr()
         testcase_in = ""
-        with open(file, "rb") as f:
-            testcase_in = f.readAll()
+        with open(file, "r") as f:
+            testcase_in = f.read()
         self.problem_template.set_testcase_in(testcase_in)
 
     def __fill_testcase_out(self):
         self.console.showAny(u"输出数据文件名 : ")
         file = self.io_helper.readStr()
         testcase_out = ""
-        with open(file, "rb") as f:
-            testcase_out = f.readAll()
+        with open(file, "r") as f:
+            testcase_out = f.read()
         self.problem_template.set_testcase_out(testcase_out)
 
     def __fill_hints(self):
         self.console.showAny(u"提示文件名 : ")
         file = self.io_helper.readStr()
         hints = []
-        with open(file, "rb") as f:
-            raw_content = f.readAll()
+        with open(file, "r") as f:
+            raw_content = f.read()
             # TODO parse json to vector type
-            hints = Parser.json2dict(raw_content)
-        self.problem_template.set_hints(hints)
+            hints = raw_content.split("\n")  # Parser.json2dict(raw_content)
+        res = [x for x in hints if len(x) != 0]
+        self.problem_template.set_hints(res)
 
     def __fill_tags(self):
         self.console.showAny(u"标签文件名 : ")
         file = self.io_helper.readStr()
         tags = []
-        with open(file, "rb") as f:
-            raw_content = f.readAll()
+        with open(file, "r") as f:
+            raw_content = f.read()
             # TODO parse json to vector type
-            tags = Parser.json2dict(raw_content)
+            tags = raw_content.split("\n")  # Parser.json2dict(raw_content)
         self.problem_template.set_tags(tags)
 
     def __fill_question_no(self):
@@ -158,5 +159,12 @@ class ProblemSetter():
         self.__fill_book_name()
 
     def save_problem_file(self, file: str):
-        with open(file, 'wb') as f:
+        with open(file, 'w', encoding='utf-8') as f:
             f.write(self.problem_template.to_json())
+            # f.write()
+
+
+if __name__ == '__main__':
+    ps = ProblemSetter()
+    ps.fill_problem_template()
+    ps.save_problem_file('problem.json')
