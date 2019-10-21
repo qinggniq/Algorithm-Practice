@@ -6,20 +6,13 @@
 
 class Solution:
     def removeDuplicateNodes(self, head: ListNode) -> ListNode:
-        from collections import Counter
-        cur = head
-        save = []
-        while cur.next != None:
-            save.append(cur.val)
-        cnts = Counter(save)
+        seen = set()
         tmp = ListNode()
         tail = tmp
-        cur = head
         while head.next != None:
-            if cnts[head.val] == 1:
+            if head.val not in seen:
                 tail.next = head
                 tail = tail.next
-            else:
-                cnts[head.val] -= 1
+                seen.add(head.val)
             head = head.next
         return tmp.next

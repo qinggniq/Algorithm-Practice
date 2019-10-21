@@ -28,7 +28,7 @@ class FilppedStringTestCaseGenerator:
         self.fout = open(file_out, 'w')
 
     def output_str(self, s1, s2):
-        self.fout.write('\"%s\" \"%s\"\n' % (s1, s2))
+        self.fout.write('\"%s\"\n\"%s\"\n' % (s1, s2))
 
     def gen_a_random_string(self, length):
         ret = []
@@ -37,7 +37,7 @@ class FilppedStringTestCaseGenerator:
                 0, len(AVAILABLE_CHARS) - 1)])
         ret2 = []
         for _ in range(length):
-            ret.append(AVAILABLE_CHARS[random.randint(
+            ret2.append(AVAILABLE_CHARS[random.randint(
                 0, len(AVAILABLE_CHARS) - 1)])
 
         self.output_str(''.join(ret), ''.join(ret2))
@@ -92,10 +92,9 @@ def get_res(file_out, file_in):
     with open(file_in, "r") as fin:
         lines = fin.readlines()
     with open(file_out, "w") as fout:
-        for line in lines:
-            s1, s2 = line.split(' ')
-            s1 = s1.replace('\"', '')
-            s2 = s2.replace('\"', '').replace('\n', '')
+        for i in range(0, len(lines), 2):
+            s1 = lines[i].replace("\n", "")
+            s2 = lines[i+1].replace("\n", "")
             if solution.isFlipedString(s1, s2):
                 fout.write('true')
             else:

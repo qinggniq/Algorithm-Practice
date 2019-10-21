@@ -112,7 +112,7 @@ def get_res(file_out, file_in):
     with open(file_out, "w") as fout:
         for line in lines:
             line = line.replace('\"', '').replace('\n', '')
-            fout.write(str(solution.compressString(line)))
+            fout.write('\"' + str(solution.compressString(line)) + '\"')
             fout.write('\n')
 
 
