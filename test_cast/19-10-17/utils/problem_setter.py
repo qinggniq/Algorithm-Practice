@@ -20,7 +20,7 @@ class Parser:
 
 
 class ProblemSetter():
-    def __init__(self, hints_file="../resource/hints.json"):
+    def __init__(self, hints_file="../../resource/hints.json"):
         self.problem_template = ProblemTemplate()
         self.io_helper = IOHelper()
         self.console = Console()

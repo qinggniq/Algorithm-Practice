@@ -1,4 +1,5 @@
 import random
+import json
 
 AVAILABLE_CHARS = [chr(ord('a')+i) for i in range(26)
                    ]
@@ -73,14 +74,17 @@ class ListTestcaseGenerator():
 
 class TestCaseGenerator:
 
-    def __init__(self, file_out, case_num=20):
+    def __init__(self, file_out='input_file', case_num=20):
         random.seed(RANDOM_SEED)
         self.fout = open(file_out, 'w')
 
     def output(self, *params):
         for para in params:
-            self.fout.write('\"%s\"\n' % str(para))
-
+            if type(para) == str:
+                self.fout.write('\"%s\"' % str(para))
+            else:
+                json.dump(para, self.fout)
+            self.fout.write('\n')
             # self.gen_correct_string(l)
 
     def gen_special_case(self):

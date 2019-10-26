@@ -1,7 +1,11 @@
+from solution import Solution
 import json
 import random
-from .solution import Solution
-from utils import ListTestcaseGenerator, TestCaseGenerator, N_SMALL_SAMPLE, N_LARGE_SAMPLE, L_LARGE, L_SMALL, L_BOUDERY
+import os
+import sys
+sys.path.append("..")
+
+from utils.testcase_gen_template  import ListTestcaseGenerator, TestCaseGenerator, N_SMALL_SAMPLE, N_LARGE_SAMPLE, L_LARGE, L_SMALL, L_BOUDERY
 
 
 class SortStackListTestcaseGenerator(ListTestcaseGenerator):
@@ -26,7 +30,7 @@ class SortStackListTestcaseGenerator(ListTestcaseGenerator):
         for _ in range(int(length)):
             op = random.randint(0, len(self.operators) - 1)
             ops.append(self.operators[op])
-            if op == 1:
+            if op == 0:
                 vals.append(random.randint(0, length))
             else:
                 vals.append('null')
@@ -41,6 +45,7 @@ class SortStackListTestcaseGenerator(ListTestcaseGenerator):
 
 class SortStackTestcaseGener(TestCaseGenerator):
     def __init__(self):
+        TestCaseGenerator.__init__(self)
         self.listGenerator = SortStackListTestcaseGenerator(self.output)
 
     def gen_special_case(self):
@@ -65,16 +70,35 @@ class SortStackTestcaseGener(TestCaseGenerator):
         self.listGenerator.gen_bad_cases(L_BOUDERY)
 
 
-solution = Solution()
-
-
-def get_res(file_out, file_in):
+def get_res(file_in, file_out):
     lines = []
     with open(file_in, "r") as fin:
         lines = fin.readlines()
     with open(file_out, "w") as fout:
         for i in range(0, len(lines), 2):
-            ops = json.loads(lines[i])
-            res = json.loads(lines[i+1])
-            fout.write(str(solution.removeDup(arr)))
-            fout.write('\n')
+            ops = (json.loads(lines[i]))
+            vals = (json.loads(lines[i+1]))
+            print(type(ops), len(ops), len(vals))
+            ret = []
+            sol = Solution()
+            for i in range(len(ops)):
+                if ops[i] == 'SortedStack':
+                    ret.append('null')
+                elif ops[i] == 'push':
+                    sol.push(int(vals[i]))
+                    ret.append('null')
+                elif ops[i] == 'pop':
+                    sol.pop()
+                    ret.append('null')
+                elif ops[i] == 'isEmpty':
+                    ret.append('true' if sol.isEmpty() else 'false')
+                elif ops[i] == 'peek':
+                    ret.append(str(sol.peek))
+            #print(ops, ret)
+            json.dump(ret, fout)
+
+
+if __name__ == "__main__":
+    gen = SortStackTestcaseGener()
+    gen.gen_all_cases()
+    get_res('input_file', 'output_file')

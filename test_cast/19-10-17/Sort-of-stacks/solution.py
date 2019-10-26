@@ -16,11 +16,11 @@ class Solution:
             self.st2.pop()
 
     def pop(self):
-        if not self.isEmpty(self.st1):
+        if not self.isEmpty():
             self.st1.pop()
 
     def peek(self):
-        if not self.isEmpty(self.st1):
+        if not self.isEmpty():
             return self.st1[-1]
         return -1
 
@@ -49,6 +49,6 @@ def test_normal():
     print(res)
 
 
-if __name__ == "__main__":
-    test_normal()
-    test_push()
+# if __name__ == "__main__":
+#     test_normal()
+#     test_push()
