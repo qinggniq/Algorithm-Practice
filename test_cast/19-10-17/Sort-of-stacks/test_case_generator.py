@@ -1,11 +1,10 @@
+from utils.testcase_gen_template import ListTestcaseGenerator, TestCaseGenerator, N_SMALL_SAMPLE, N_LARGE_SAMPLE, L_LARGE, L_SMALL, L_BOUDERY
 from solution import Solution
 import json
 import random
 import os
 import sys
 sys.path.append("..")
-
-from utils.testcase_gen_template  import ListTestcaseGenerator, TestCaseGenerator, N_SMALL_SAMPLE, N_LARGE_SAMPLE, L_LARGE, L_SMALL, L_BOUDERY
 
 
 class SortStackListTestcaseGenerator(ListTestcaseGenerator):
