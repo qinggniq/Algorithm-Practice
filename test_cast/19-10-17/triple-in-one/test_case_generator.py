@@ -85,7 +85,7 @@ class TripleInOneTestcaseGenerator(ListTestcaseGenerator):
 
     def gen_bad_cases(self, length):
         ops = ['TripleInOne']
-        vals = [random.randint(0, max(1, int(length/10))) * 3]
+        vals = [[random.randint(0, max(1, int(length/10))) * 3]]
         cnt = 0
         for _ in range(int(length/2)):
             ops.append(self.operators[0])
@@ -93,12 +93,12 @@ class TripleInOneTestcaseGenerator(ListTestcaseGenerator):
             cnt += 1
         for _ in range(int(length/2)):
             ops.append(self.operators[1])
-            vals.append(random.randint(0, 2))
+            vals.append([random.randint(0, 2)])
         self.output(ops, vals)
 
     def gen_random_cases(self, length):
         ops = ['TripleInOne']
-        vals = [random.randint(0, max(1, int(length/10))) * 3]
+        vals = [[random.randint(0, max(1, int(length/10))) * 3]]
         cnt = 0
         for _ in range(int(length)):
             op = random.randint(0, len(self.operators) - 1)
@@ -107,7 +107,7 @@ class TripleInOneTestcaseGenerator(ListTestcaseGenerator):
                 vals.append([random.randint(0, length), random.randint(0, 2)])
                 cnt += 1
             else:
-                vals.append(random.randint(0, 2))
+                vals.append([random.randint(0, 2)])
         self.output(ops, vals)
 
     def gen_series_cases(self, nsamp, large_L):
@@ -135,10 +135,10 @@ class TestCaseGenerator:
 
     def gen_special_case(self):
         self.output(['TripleInOne', 'push', 'push', 'pop',
-                     'pop', 'pop', 'isEmpty'], [1, [1, 0], [2, 0], 0, 0, 0, 0])
+                     'pop', 'pop', 'isEmpty'], [[1], [1, 0], [2, 0], [0], [0], [0], [0]])
 
         self.output(['TripleInOne', 'push', 'push', 'push',
-                     'pop', 'pop', 'pop', 'peek'], [2, [1, 0], [2, 0], [3, 0], 0, 0, 0, 0])
+                     'pop', 'pop', 'pop', 'peek'], [[2], [1, 0], [2, 0], [3, 0], [0], [0], [0], [0]])
 
         # self.output(['StackOfPlates', 'push', 'push', 'push', 'dequeueAny', 'dequeueAny']
         #             )
@@ -182,7 +182,7 @@ def get_res(file_in, file_out):
             sol = None
             for i in range(len(ops)):
                 if ops[i] == 'TripleInOne':
-                    sol = Solution(int(vals[i]))
+                    sol = Solution(int(vals[i][0]))
                     print('int')
                     ret.append(None)
                 elif ops[i] == 'push':
@@ -190,14 +190,15 @@ def get_res(file_in, file_out):
                     ret.append(None)
                 elif ops[i] == 'pop':
                     ret.append(None)
-                    sol.pop(int(vals[i]))
+                    sol.pop(int(vals[i][0]))
                 elif ops[i] == 'peek':
                     print(sol)
-                    ret.append(sol.peek(vals[i]))
+                    ret.append(sol.peek(vals[i][0]))
                 elif ops[i] == 'isEmpty':
-                    ret.append('true' if sol.isEmpty(vals[i]) else 'false')
+                    ret.append(True if sol.isEmpty(vals[i][0]) else False)
             #print(ops, ret)
             json.dump(ret, fout)
+            fout.write("\n")
 
 
 if __name__ == "__main__":

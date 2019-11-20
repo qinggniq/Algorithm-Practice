@@ -3,18 +3,24 @@
 <p> <strong>示例1:</strong></p>
 <pre>
 <strong> 输入</strong>：
-['AnimalShelf', 'enqueue', 'enqueue', 'dequeueCat', 'dequeueDog', 'dequeueAny']
+['AnimalShelf', 'enqueue', 'enqueue', 'dequeueCat', 'dequeueDog',dequeueAny']
 [null, [0, 0], [1, 0],null, null,null]
 <strong> 输出</strong>：
 [null, null, null, [0, 0], [], [1, 0]]
+<strong> 说明</strong>：输入`[id, type]`，`id`代表宠物编号，`type`代表宠物种类，其中0代表猫，1代表狗
 </pre>
 
 <p> <strong>示例2:</strong></p>
 <pre>
-<strong> 输入</strong>：['AnimalShelf', 'enqueue', 'enqueue', 'enqueue', 'dequeueDog', 'dequeueCat', 'dequeueAny']
+<strong> 输入</strong>：
+['AnimalShelf', 'enqueue', 'enqueue', 'enqueue','dequeueDog', 'dequeueCat', 'dequeueAny']
 [null, [0, 0], [1, 0], [2, 1], null, null,null]
 <strong> 输出</strong>：
 [null,null, null, null, [0, 0], [2, 1], [1, 0]]
+</pre>
+
+<p> <strong>说明:</strong></p>
+1. 收纳所的最大容量为20000
 
 
 

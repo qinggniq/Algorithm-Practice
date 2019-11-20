@@ -95,10 +95,7 @@ def get_res(file_out, file_in):
         for i in range(0, len(lines), 2):
             s1 = lines[i].replace("\n", "")
             s2 = lines[i+1].replace("\n", "")
-            if solution.isFlipedString(s1, s2):
-                fout.write('true')
-            else:
-                fout.write('false')
+            fout.write(solution.isFlipedString(s1, s2))
             fout.write('\n')
 
 

@@ -1,7 +1,9 @@
 PYTHON=/usr/bin/python3
 UTILS_DIR=../utils
-DATE=$(shell date +%Y+%m+%d)
+DATE=$(shell date +%Y-%m-%d)
 PROBLEM=problem
+CWD=$(shell pwd)
+BASENAME=$(shell basename `pwd`)
 
 template : 
 	touch __init__.py hints tags input.json output.json solution.py test_case_generator.py problem.md
@@ -14,7 +16,10 @@ json:
 	$(PYTHON) $(UTILS_DIR)/problem_setter.py < in
 
 submit:
-	tar czf problem.tar.gz problem.json test_case_generator.py
+	tar czf $(BASENAME).tar.gz problem.json test_case_generator.py
+
+test:
+	@echo $(BASENAME)
 
 new:
 	if test -d ${DATE}; then \
@@ -24,8 +29,8 @@ new:
 		cp -r utils ${DATE};\
 		cp -r resource ${DATE};\
 	fi
-	@for f in $(shell cat $(PROBLEM)); do mkdir $(DATE)/$${f}; cp ./Makefile $(DATE)/$${f}; cp ./in $(DATE)/$${f}; done
+	@for f in $(shell cat $(PROBLEM)); do mkdir $(DATE)/$${f}; cp ./Makefile $(DATE)/$${f}; cp ./in $(DATE)/$${f}; cd  $(DATE)/$${f}; make template; cd $(CWD);done
 	
 
 	
-all: json testcase submit
+all:  testcase json submit

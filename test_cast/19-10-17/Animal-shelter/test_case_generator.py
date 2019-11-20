@@ -59,7 +59,7 @@ class ListTestcaseGenerator():
         i = 0
         uppper = int(length * rate)
         while i < length:
-            ret.append(random.randint(0, uppper))
+            ret.append([random.randint(0, uppper)])
             i += 1
         self.output(ret)
 
@@ -77,29 +77,29 @@ class AnimalShelfTestcaseGenerator(ListTestcaseGenerator):
 
     def gen_bad_cases(self, length):
         ops = ['AnimalShelf']
-        vals = [None]
+        vals = [[]]
         cnt = 0
         for _ in range(int(length/2)):
             ops.append(self.operators[0])
-            vals.append([cnt, random.randint(0, 1)])
+            vals.append([[cnt, random.randint(0, 1)]])
             cnt += 1
         for _ in range(int(length/2)):
             ops.append(self.operators[1])
-            vals.append(None)
+            vals.append([])
         self.output(ops, vals)
 
     def gen_random_cases(self, length):
         ops = ['AnimalShelf']
-        vals = [None]
+        vals = [[]]
         cnt = 0
         for _ in range(int(length)):
             op = random.randint(0, len(self.operators) - 1)
             ops.append(self.operators[op])
             if op == 0:
-                vals.append([cnt, random.randint(0, length)])
+                vals.append([[cnt, random.randint(0, length)]])
                 cnt += 1
             else:
-                vals.append(None)
+                vals.append([])
         self.output(ops, vals)
 
     def gen_series_cases(self, nsamp, large_L):
@@ -128,15 +128,15 @@ class TestCaseGenerator:
     def gen_special_case(self):
         self.output(['AnimalShelf', 'enqueue', 'enqueue', 'dequeueCat', 'dequeueDog', 'dequeueAny']
                     )
-        self.output([None, [0, 0], [1, 0], None, None, None])
+        self.output([[], [[0, 0]], [[1, 0]], [], [], []])
 
         self.output(['AnimalShelf', 'enqueue', 'enqueue', 'enqueue',
                      'dequeueDog', 'dequeueCat', 'dequeueAny'])
-        self.output([None, [0, 0], [1, 0], [2, 1], None, None, None])
+        self.output([[], [[0, 0]], [[1, 0]], [[2, 1]], [], [], []])
 
         self.output(['AnimalShelf', 'enqueue', 'enqueue', 'enqueue', 'dequeueAny', 'dequeueAny']
                     )
-        self.output([None, [0, 0], [1, 1], [2, 0], None, None])
+        self.output([[], [[0, 0]], [[1, 1]], [[2, 0]], [], []])
 
     def gen_small_cases(self):
         # self.gen_series_string(N_SMALL_SAMPLE, L_SMALL)
@@ -178,16 +178,17 @@ def get_res(file_in, file_out):
                 if ops[i] == 'AnimalShelf':
                     ret.append(None)
                 elif ops[i] == 'enqueue':
-                    sol.enqueue((vals[i]))
-                    ret.append('null')
+                    sol.enqueue((vals[i][0]))
+                    ret.append(None)
                 elif ops[i] == 'dequeueCat':
                     ret.append(sol.dequeueCat())
                 elif ops[i] == 'dequeueDog':
                     ret.append(sol.dequeueDog())
                 elif ops[i] == 'dequeueAny':
                     ret.append(sol.dequeueAny())
-            #print(ops, ret)
+            # print(ops, ret)
             json.dump(ret, fout)
+            fout.write('\n')
 
 
 if __name__ == "__main__":

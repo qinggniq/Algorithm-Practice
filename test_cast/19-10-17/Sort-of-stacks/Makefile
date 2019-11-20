@@ -13,4 +13,4 @@ json:
 submit:
 	tar czf problem.tar.gz problem.json test_case_generator.py
 
-all: json testcase submit
+all:  testcase json submit 
